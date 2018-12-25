@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 
-class App extends Component {
+class imagesHolder extends Component {
   constructor (props){
     super(props)
     this.state = {
@@ -22,7 +21,8 @@ class App extends Component {
     }
 
   render() {
-    var {isloaded, items}=this.state;
+    var isloaded= this.state.isloaded;
+     var items=this.state.items.filter((item) => {return item.id > 0 && item.id < 9});
 
     if(!isloaded){
       return <div> is loading</div>
@@ -40,4 +40,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default imagesHolder;
