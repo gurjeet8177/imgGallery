@@ -6,9 +6,12 @@ class imagesHolder extends Component {
     super(props)
     this.state = {
       items:[],
+      itemsFiltered:[],
       isloaded:false,
       currentPageNumber:1,
-
+      rangeStartNum:0,
+      rangeEndNum:9,
+      numOfImgPerPage:9
 
     }
   }
@@ -18,43 +21,51 @@ class imagesHolder extends Component {
       .then(json => {
         this.setState({
           isloaded:true,
-          items:json,
-
+          items:json
         })
       });
     }
+
+
+
     handleNext = () => {
       var CPN = this.state.currentPageNumber + 1;
-      this.setState({currentPageNumber:CPN});
-      console.log(this.state.currentPageNumber);
+      var rangeStartNum = (this.state.currentPageNumber - 1) * 9 ;
+
+      var rangeEndNum = ((this.state.currentPageNumber)* 9) -1  ;
+      var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum});
+        this.setState({itemsFiltered, currentPageNumber:CPN, rangeStartNum, rangeEndNum});
+
+
+      console.log(this.state.itemsFiltered.map(item => " "+ item.id));
+
 
     }
+
     handlePrev = () => {
-      if(this.state.currentPageNumber > 2 || this.state.currentPageNumber == 2){
-      var CPN = this.state.currentPageNumber - 1;
-      this.setState({currentPageNumber:CPN});
-      console.log(this.state.currentPageNumber);
-    }else{
-      console.log("minus now");
-    }
-    }
+            const numOfImgPerPage = 9;
+            if(this.state.currentPageNumber > 2 || this.state.currentPageNumber === 2){
+            var CPN = this.state.currentPageNumber - 1;
+            this.setState({currentPageNumber:CPN});
+            console.log(this.state.currentPageNumber);
+          }else{
+            console.log("minus now");
+          }
+      }
+
+
   render() {
     var isloaded= this.state.isloaded;
-    const numOfImgPerPage = 9;
-    var rangeStartNum = (this.state.currentPageNumber-1) * numOfImgPerPage ;
-
-    var rangeEndNum = ((this.state.currentPageNumber)* 9) -1  ;
-
-     var items=this.state.items.filter((item) => {return item.id > rangeStartNum && item.id < rangeEndNum});
-
     if(!isloaded){
       return <div> is loading</div>
+      
     }else{
     return (
       <div >
-        {items.map(item => (
+        {this.state.itemsFiltered.map((item, index) => (
 
-          <img key={item.id} src={"https://picsum.photos/200/300?image="+ item.id} alt="" />
+          <img key={index} src={"https://picsum.photos/200/300?image="+ item.id} alt="" />
+          //console.log(index);
          ))}
          <PagginationBlock onNext={this.handleNext} onPrev = {this.handlePrev}/>
       </div>
