@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 //import './App.css';
-
+import PagginationBlock from './pagginationBlock';
 class imagesHolder extends Component {
   constructor (props){
     super(props)
     this.state = {
       items:[],
-      isloaded:false
+      isloaded:false,
+      currentPageNumber:1,
+
+
     }
   }
     componentDidMount(){
@@ -15,25 +18,45 @@ class imagesHolder extends Component {
       .then(json => {
         this.setState({
           isloaded:true,
-          items:json
+          items:json,
+
         })
       });
     }
+    handleNext = () => {
+      var CPN = this.state.currentPageNumber + 1;
+      this.setState({currentPageNumber:CPN});
+      console.log(this.state.currentPageNumber);
 
+    }
+    handlePrev = () => {
+      if(this.state.currentPageNumber > 2 || this.state.currentPageNumber == 2){
+      var CPN = this.state.currentPageNumber - 1;
+      this.setState({currentPageNumber:CPN});
+      console.log(this.state.currentPageNumber);
+    }else{
+      console.log("minus now");
+    }
+    }
   render() {
     var isloaded= this.state.isloaded;
-     var items=this.state.items.filter((item) => {return item.id > 0 && item.id < 9});
+    const numOfImgPerPage = 9;
+    var rangeStartNum = (this.state.currentPageNumber-1) * numOfImgPerPage ;
+
+    var rangeEndNum = ((this.state.currentPageNumber)* 9) -1  ;
+
+     var items=this.state.items.filter((item) => {return item.id > rangeStartNum && item.id < rangeEndNum});
 
     if(!isloaded){
       return <div> is loading</div>
     }else{
     return (
-      <div className="App">
+      <div >
         {items.map(item => (
 
           <img key={item.id} src={"https://picsum.photos/200/300?image="+ item.id} alt="" />
-         ))};
-
+         ))}
+         <PagginationBlock onNext={this.handleNext} onPrev = {this.handlePrev}/>
       </div>
     );
   }//else
