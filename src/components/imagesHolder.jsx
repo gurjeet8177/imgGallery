@@ -8,18 +8,23 @@ class imagesHolder extends Component {
       items:[],
       itemsFiltered:[],
       isloaded:false,
-      currentPageNumber:1
+      currentPageNumber:1,
+      totalPages:0,
+      imgPerPage:9
     }
   }
+
     componentDidMount(){
       fetch('https://picsum.photos/list')
       .then(response => response.json())
       .then(json => {
+        var totalPages = Math.ceil(json.length/this.state.imgPerPage);
         var itemsFiltered=json.filter((item, index) => { return index >= 0 && index <= 8 });
         this.setState({
           isloaded:true,
           items:json,
-          itemsFiltered
+          itemsFiltered,
+          totalPages
         })
       });
     }
@@ -29,33 +34,36 @@ class imagesHolder extends Component {
 
     handleNext = () => {
       //this.filterItems("next");
-      var CPN = this.state.currentPageNumber + 1;
-      var rangeStartNum ;
 
-      var rangeEndNum;
-
-
-        rangeStartNum = (CPN - 1) * 9 ;
-
-       rangeEndNum = ((CPN)* 9) -1  ;
-    console.log("stN",rangeStartNum);
+      var rangeStartNum, rangeEndNum, CPN;
+      if(this.state.currentPageNumber==this.state.totalPages){
+        CPN = 1;
+      }else{
+        CPN = this.state.currentPageNumber + 1;
+      }
+      rangeStartNum = (CPN - 1) * this.state.imgPerPage ;
+      rangeEndNum = ((CPN)* this.state.imgPerPage) -1  ;
+      console.log("stN",rangeStartNum);
       console.log("EndN",rangeEndNum);
       var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum });
         this.setState({currentPageNumber:CPN ,itemsFiltered });
-
-
-      //console.log(this.state.itemsFiltered.map(item => " "+ item.id));
-
-        }
+        //console.log(this.state.itemsFiltered.map(item => " "+ item.id));
+      }
 
     handlePrev = () => {
-      //this.filterItems("prev");
-      var CPN = this.state.currentPageNumber - 1;
-      var rangeStartNum = (CPN - 1) * 9 ;
 
-      var rangeEndNum = ((CPN)* 9) -1  ;
+      var rangeStartNum, rangeEndNum, CPN;
+
+      if(this.state.currentPageNumber==1){
+        CPN = this.state.totalPages;
+      }else{
+        CPN = this.state.currentPageNumber - 1;
+      }
+      rangeStartNum = (CPN - 1) * 9 ;
+      rangeEndNum = ((CPN)* 9) -1  ;
       console.log("stN",rangeStartNum);
       console.log("EndN",rangeEndNum);
+
       var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum});
         this.setState({itemsFiltered, currentPageNumber:CPN});
 
@@ -70,12 +78,12 @@ class imagesHolder extends Component {
     }else{
     return (
       <div >
-  
-        {this.state.itemsFiltered.map((item, index) => (
 
-          <img key={index} src={"https://picsum.photos/200/300?image="+ item.id} alt="" />
+        {this.state.itemsFiltered.map((item, index) => (
+          <img key={index} src={"https://picsum.photos/300/200?image="+ item.id} alt="" />
           //console.log(index);
-         ))}
+          ))
+        }
          <PagginationBlock onNext={this.handleNext} onPrev = {this.handlePrev} stateObject={this.state}/>
       </div>
     );

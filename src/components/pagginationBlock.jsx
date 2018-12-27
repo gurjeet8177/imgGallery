@@ -11,11 +11,15 @@ class PagginationBlock extends Component {
 
 
   render() {
-    return(
-        <div >
-          <button key="1" value="Next" onClick={this.props.onNext}>Next</button>
-            <p></p>
-          <button key="2" value="Perv" onClick={this.props.onPrev}>Perv</button>
+      return(
+<div>
+<nav aria-label="Page navigation example">
+       <ul class="pagination">
+       <li class="page-item"><a class="page-link" href="#" onClick={this.props.onNext}>Next</a></li>
+            <p>{this.props.stateObject.currentPageNumber + " of " + this.props.stateObject.totalPages }</p>
+            <li class="page-item"><a class="page-link" href="#" onClick={this.props.onPrev}>Previous</a></li>
+          </ ul>
+</ nav>
         </ div>
     );
 
