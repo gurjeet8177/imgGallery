@@ -14,7 +14,7 @@ class PagginationBlock extends Component {
     return(
         <div >
           <button key="1" value="Next" onClick={this.props.onNext}>Next</button>
-            <p>pn of pt</p>
+            <p></p>
           <button key="2" value="Perv" onClick={this.props.onPrev}>Perv</button>
         </ div>
     );
