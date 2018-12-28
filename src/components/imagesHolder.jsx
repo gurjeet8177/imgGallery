@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import './App.css';
 import PagginationBlock from './pagginationBlock';
+import NavigationBlock from './navigationBlock';
 class imagesHolder extends Component {
   constructor (props){
     super(props)
@@ -28,37 +29,24 @@ class imagesHolder extends Component {
         })
       });
     }
-
-
-
-
-    handleNext = () => {
-      //this.filterItems("next");
-
+    handleChnage = (action) => {
       var rangeStartNum, rangeEndNum, CPN;
-      if(this.state.currentPageNumber==this.state.totalPages){
-        CPN = 1;
-      }else{
-        CPN = this.state.currentPageNumber + 1;
-      }
-      rangeStartNum = (CPN - 1) * this.state.imgPerPage ;
-      rangeEndNum = ((CPN)* this.state.imgPerPage) -1  ;
-      console.log("stN",rangeStartNum);
-      console.log("EndN",rangeEndNum);
-      var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum });
-      this.setState({currentPageNumber:CPN ,itemsFiltered });
-        //console.log(this.state.itemsFiltered.map(item => " "+ item.id));
-      }
-
-    handlePrev = () => {
-
-      var rangeStartNum, rangeEndNum, CPN;
-
+      if(action=="prev"){
       if(this.state.currentPageNumber==1){
         CPN = this.state.totalPages;
       }else{
         CPN = this.state.currentPageNumber - 1;
       }
+
+  }else if(action=="next"){
+    if(this.state.currentPageNumber==this.state.totalPages){
+      CPN = 1;
+    }else{
+      CPN = this.state.currentPageNumber + 1;
+    }
+
+  }
+
       rangeStartNum = (CPN - 1) * 9 ;
       rangeEndNum = ((CPN)* 9) -1  ;
       console.log("stN",rangeStartNum);
@@ -67,6 +55,19 @@ class imagesHolder extends Component {
       var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum});
         this.setState({itemsFiltered, currentPageNumber:CPN});
 
+
+    }
+
+
+
+    handleNext = () => {
+
+        this.handleChnage("next");
+
+      }
+
+    handlePrev = () => {
+        this.handleChnage("prev");
       }
 
 
@@ -78,24 +79,31 @@ class imagesHolder extends Component {
     }else{
     return (
       <div class="container">
+      <NavigationBlock />
   <div class="row">
         {this.state.itemsFiltered.map((item, index) => (
 
                 <div class="col-md-4">
+
                 <div class="thumbnail">
-                  <a href="/w3images/lights.jpg">
-                        <img key={index} src={"https://picsum.photos/300/200?image="+ item.id } alt="" />
-                    <div class="caption">
-                      <p>Lorem ipsum...</p>
+
+
+                      <img key={index} src={"https://picsum.photos/300/200?image="+ item.id } alt="" />
+                        <div class="caption">
+                    <p> Author:    <a href={item.author_url} >{item.author}  </a></p>
                     </div>
-                  </a>
+
                 </div>
               </div>
 
 
         ))}
   </div>
-         <PagginationBlock onNext={this.handleNext} onPrev = {this.handlePrev} stateObject={this.state}/>
+         <PagginationBlock onNext={() => {
+             this.handleChnage("next");
+           }} onPrev = {() => {
+               this.handleChnage("prev");
+             }} stateObject={this.state}/>
          </div>
 
     )//else
