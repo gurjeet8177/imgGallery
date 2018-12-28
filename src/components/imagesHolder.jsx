@@ -46,7 +46,7 @@ class imagesHolder extends Component {
       console.log("stN",rangeStartNum);
       console.log("EndN",rangeEndNum);
       var itemsFiltered=this.state.items.filter((item, index) => { return index >= rangeStartNum && index <= rangeEndNum });
-        this.setState({currentPageNumber:CPN ,itemsFiltered });
+      this.setState({currentPageNumber:CPN ,itemsFiltered });
         //console.log(this.state.itemsFiltered.map(item => " "+ item.id));
       }
 
@@ -77,18 +77,31 @@ class imagesHolder extends Component {
 
     }else{
     return (
-      <div >
-
+      <div class="container">
+  <div class="row">
         {this.state.itemsFiltered.map((item, index) => (
-          <img key={index} src={"https://picsum.photos/300/200?image="+ item.id} alt="" />
-          //console.log(index);
-          ))
-        }
+
+                <div class="col-md-4">
+                <div class="thumbnail">
+                  <a href="/w3images/lights.jpg">
+                        <img key={index} src={"https://picsum.photos/300/200?image="+ item.id } alt="" />
+                    <div class="caption">
+                      <p>Lorem ipsum...</p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+
+        ))}
+  </div>
          <PagginationBlock onNext={this.handleNext} onPrev = {this.handlePrev} stateObject={this.state}/>
-      </div>
-    );
-  }//else
+         </div>
+
+    )//else
   }
-}
+  }
+  }
+
 
 export default imagesHolder;
