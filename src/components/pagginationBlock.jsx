@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import './App.css';
+import '../App.css';
 
 class PagginationBlock extends Component {
   constructor (props){
@@ -14,15 +14,12 @@ class PagginationBlock extends Component {
       return(
 
 
-     <nav aria-label="Page navigation example">
-       <ul class="pagination justify-content-center">
+     <nav class="pagginationBlock">
 
-           <a class="page-link" href="#" tabindex="1" onClick={this.props.onPrev} >Previous</a>
-         <li class="page-item"><a class="page-link" href="#">{this.props.stateObject.currentPageNumber + " of " + this.props.stateObject.totalPages }</a></li>
-         <li class="page-item" >
-           <a class="page-link" href="#"  onClick={this.props.onNext}>Next</a>
-         </li>
-       </ul>
+           <button class="button next-button"  href="#"  onClick={this.props.onPrev}>Prev< /button>
+        Page {this.props.stateObject.currentPageNumber + " of " + this.props.stateObject.totalPages }
+         <button class="button prev-button"  href="#"  onClick={this.props.onNext}>Next< /button>
+
      </nav>
 
 

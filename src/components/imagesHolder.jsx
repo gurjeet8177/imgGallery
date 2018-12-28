@@ -69,17 +69,13 @@ class imagesHolder extends Component {
     return (
       <div class="container">
       <NavigationBlock />
-  <div class="row">
+      <div class="row">
         {this.state.itemsFiltered.map((item, index) => (
-
                 <div class="col-md-4">
-
                 <div class="thumbnail">
-
-
                       <img key={index} src={"https://picsum.photos/300/200?image="+ item.id } alt="" />
                         <div class="caption">
-                    <p> Author:    <a href={item.author_url} >{item.author}  </a></p>
+                    <p> By: <a href={item.author_url} >{item.author}  </a></p>
                     </div>
 
                 </div>
@@ -87,15 +83,16 @@ class imagesHolder extends Component {
 
 
         ))}
-  </div>
+</div>
          <PagginationBlock onNext={() => {
              this.handleChnage("next");
            }} onPrev = {() => {
                this.handleChnage("prev");
-             }} stateObject={this.state}/>
+             }} stateObject={this.state}
+             />
          </div>
 
-    )//else
+    )
   }
   }
   }

@@ -30,3 +30,30 @@
     transform: rotate(360deg);
   }
 }
+.pagginationBlock{
+
+  text-align: center;
+
+}
+.next-button{
+float: left;
+
+}
+
+.prev-button{
+float: right;
+
+}
+.button{
+  background-color: #0070ff;
+  border-radius: 5px;
+  border:none;
+
+  padding: 10px 22px;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  
+  text-align: center;
+}
