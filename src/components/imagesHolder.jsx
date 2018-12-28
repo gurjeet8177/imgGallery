@@ -20,7 +20,7 @@ class imagesHolder extends Component {
       .then(response => response.json())
       .then(json => {
         var totalPages = Math.ceil(json.length/this.state.imgPerPage);
-        var itemsFiltered=json.filter((item, index) => { return index >= 0 && index <= 8 });
+        var itemsFiltered=json.filter((item, index) => { return index >= 0 && index <= (this.state.imgPerPage-1) });
         this.setState({
           isloaded:true,
           items:json,
@@ -47,8 +47,8 @@ class imagesHolder extends Component {
 
   }
 
-      rangeStartNum = (CPN - 1) * 9 ;
-      rangeEndNum = ((CPN)* 9) -1  ;
+      rangeStartNum = (CPN - 1) * this.state.imgPerPage ;
+      rangeEndNum = ((CPN)* this.state.imgPerPage) -1  ;
       console.log("stN",rangeStartNum);
       console.log("EndN",rangeEndNum);
 
@@ -58,17 +58,6 @@ class imagesHolder extends Component {
 
     }
 
-
-
-    handleNext = () => {
-
-        this.handleChnage("next");
-
-      }
-
-    handlePrev = () => {
-        this.handleChnage("prev");
-      }
 
 
   render() {
